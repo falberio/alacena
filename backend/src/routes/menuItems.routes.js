@@ -1,7 +1,7 @@
 // src/routes/menuItems.routes.js
 
-import express from 'express'
-import { createMenuItem, listMenuItems, getMenuItem, updateMenuItem, deleteMenuItem } from '../controllers/menuItem.controller.js'
+const express = require('express')
+const { createMenuItem, listMenuItems, getMenuItem, updateMenuItem, deleteMenuItem } = require('../controllers/menuItem.controller.js')
 
 const router = express.Router()
 

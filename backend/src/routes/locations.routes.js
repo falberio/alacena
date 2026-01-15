@@ -1,13 +1,13 @@
 // src/routes/locations.routes.js
 
-import express from 'express'
-import {
+const express = require('express')
+const {
   createLocation,
   listLocations,
   getLocation,
   updateLocation,
   deleteLocation,
-} from '../controllers/location.controller.js'
+} = require('../controllers/location.controller.js')
 
 const router = express.Router()
 

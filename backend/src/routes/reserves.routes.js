@@ -1,15 +1,15 @@
 // src/routes/reserves.routes.js
 // Rutas REST para Reserves
 
-import express from 'express'
-import {
+const express = require('express')
+const {
   createReserve,
   listReserves,
   getReserve,
   updateReserve,
   deleteReserve,
   consumeReserve,
-} from '../controllers/reserve.controller.js'
+} = require('../controllers/reserve.controller.js')
 
 const router = express.Router()
 
