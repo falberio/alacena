@@ -3,9 +3,6 @@
     "buildCommand": "npm run prisma:generate",
     "devCommand": "npm run dev",
     "outputDirectory": ".",
-    "env": {
-        "DATABASE_URL": "@database_url"
-    },
     "functions": {
         "src/server.js": {
             "memory": 512,
