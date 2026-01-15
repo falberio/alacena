@@ -11,4 +11,4 @@ router.get('/:id', getMenuItem)
 router.put('/:id', updateMenuItem)
 router.delete('/:id', deleteMenuItem)
 
-export default router
+module.exports = router

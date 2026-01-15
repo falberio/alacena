@@ -11,4 +11,4 @@ router.get('/:id', getBatch)
 router.put('/:id', updateBatch)
 router.delete('/:id', deleteBatch)
 
-export default router
+module.exports = router

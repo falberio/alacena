@@ -50,4 +50,4 @@ router.delete('/:id', deleteReserve)
  */
 router.patch('/:id/consume', consumeReserve)
 
-export default router
+module.exports = router

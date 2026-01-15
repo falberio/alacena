@@ -17,4 +17,4 @@ router.get('/:id', getLocation)
 router.put('/:id', updateLocation)
 router.delete('/:id', deleteLocation)
 
-export default router
+module.exports = router

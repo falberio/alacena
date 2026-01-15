@@ -11,4 +11,4 @@ router.get('/:id', getContainer)
 router.put('/:id', updateContainer)
 router.delete('/:id', deleteContainer)
 
-export default router
+module.exports = router

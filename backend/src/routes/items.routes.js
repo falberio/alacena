@@ -17,4 +17,4 @@ router.get('/:id', getItem)
 router.put('/:id', updateItem)
 router.delete('/:id', deleteItem)
 
-export default router
+module.exports = router
