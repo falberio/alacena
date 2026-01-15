@@ -4,7 +4,7 @@
 import 'dotenv/config'
 import pkg from '@prisma/client'
 const { PrismaClient } = pkg
-import adapterPkg from '@prisma/adapter-pg'
+import * as adapterPkg from '@prisma/adapter-pg'
 const { PrismaPg } = adapterPkg
 import pgPkg from 'pg'
 const { Pool } = pgPkg
