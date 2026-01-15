@@ -1,13 +1,13 @@
 // src/routes/locations.routes.js
 
-const express = require('express')
-const {
+import express from 'express'
+import {
   createLocation,
   listLocations,
   getLocation,
   updateLocation,
   deleteLocation,
-} = require('../controllers/location.controller')
+} from '../controllers/location.controller.js'
 
 const router = express.Router()
 
@@ -17,4 +17,4 @@ router.get('/:id', getLocation)
 router.put('/:id', updateLocation)
 router.delete('/:id', deleteLocation)
 
-module.exports = router
+export default router

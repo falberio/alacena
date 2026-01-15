@@ -1,6 +1,6 @@
 // src/schemas/item.schema.js
 
-const { z } = require('zod')
+import { z } from 'zod'
 
 const ItemKindEnum = z.enum(['PRODUCT', 'RECIPE'])
 const UnitKindEnum = z.enum(['GRAM', 'ML', 'UNIT'])
@@ -28,7 +28,7 @@ const FilterItemSchema = z.object({
   offset: z.coerce.number().int().nonnegative().default(0),
 })
 
-module.exports = {
+export {
   CreateItemSchema,
   UpdateItemSchema,
   FilterItemSchema,

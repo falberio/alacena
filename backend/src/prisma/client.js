@@ -1,10 +1,10 @@
 // src/prisma/client.js
 // Singleton del cliente Prisma para toda la app
 
-require('dotenv/config')
-const { PrismaClient } = require('@prisma/client')
-const { PrismaPg } = require('@prisma/adapter-pg')
-const { Pool } = require('pg')
+import 'dotenv/config'
+import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
 
 // Crear pool de conexiones con configuración de Supabase
 const pool = new Pool({
@@ -18,4 +18,4 @@ const adapter = new PrismaPg(pool)
 // Instancia única del cliente (reutilizada en toda la app)
 const prisma = new PrismaClient({ adapter })
 
-module.exports = prisma
+export default prisma

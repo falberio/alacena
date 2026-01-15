@@ -1,7 +1,7 @@
 // src/routes/containers.routes.js
 
-const express = require('express')
-const { createContainer, listContainers, getContainer, updateContainer, deleteContainer } = require('../controllers/container.controller')
+import express from 'express'
+import { createContainer, listContainers, getContainer, updateContainer, deleteContainer } from '../controllers/container.controller.js'
 
 const router = express.Router()
 
@@ -11,4 +11,4 @@ router.get('/:id', getContainer)
 router.put('/:id', updateContainer)
 router.delete('/:id', deleteContainer)
 
-module.exports = router
+export default router

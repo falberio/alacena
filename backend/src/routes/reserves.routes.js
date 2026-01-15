@@ -1,15 +1,15 @@
 // src/routes/reserves.routes.js
 // Rutas REST para Reserves
 
-const express = require('express')
-const {
+import express from 'express'
+import {
   createReserve,
   listReserves,
   getReserve,
   updateReserve,
   deleteReserve,
   consumeReserve,
-} = require('../controllers/reserve.controller')
+} from '../controllers/reserve.controller.js'
 
 const router = express.Router()
 
@@ -50,4 +50,4 @@ router.delete('/:id', deleteReserve)
  */
 router.patch('/:id/consume', consumeReserve)
 
-module.exports = router
+export default router

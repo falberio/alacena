@@ -1,13 +1,13 @@
 // src/routes/items.routes.js
 
-const express = require('express')
-const {
+import express from 'express'
+import {
   createItem,
   listItems,
   getItem,
   updateItem,
   deleteItem,
-} = require('../controllers/item.controller')
+} from '../controllers/item.controller.js'
 
 const router = express.Router()
 
@@ -17,4 +17,4 @@ router.get('/:id', getItem)
 router.put('/:id', updateItem)
 router.delete('/:id', deleteItem)
 
-module.exports = router
+export default router

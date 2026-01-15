@@ -1,11 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const reservesRoutes = require('./routes/reserves.routes');
-const itemsRoutes = require('./routes/items.routes');
-const locationsRoutes = require('./routes/locations.routes');
-const menuItemsRoutes = require('./routes/menuItems.routes');
-const containersRoutes = require('./routes/containers.routes');
-const batchesRoutes = require('./routes/batches.routes');
+import express from 'express'
+import cors from 'cors'
+import reservesRoutes from './routes/reserves.routes.js'
+import itemsRoutes from './routes/items.routes.js'
+import locationsRoutes from './routes/locations.routes.js'
+import menuItemsRoutes from './routes/menuItems.routes.js'
+import containersRoutes from './routes/containers.routes.js'
+import batchesRoutes from './routes/batches.routes.js'
 
 const app = express();
 
@@ -30,4 +30,4 @@ app.use((req, res) => {
     res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
-module.exports = app;
+export default app;

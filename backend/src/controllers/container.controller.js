@@ -1,7 +1,7 @@
 // src/controllers/container.controller.js
 
-const prisma = require('../prisma/client')
-const { CreateContainerSchema, UpdateContainerSchema, FilterContainerSchema } = require('../schemas/container.schema')
+import prisma from '../prisma/client.js'
+import { CreateContainerSchema, UpdateContainerSchema, FilterContainerSchema } from '../schemas/container.schema.js'
 
 async function createContainer(req, res) {
   try {
@@ -97,7 +97,7 @@ async function deleteContainer(req, res) {
   }
 }
 
-module.exports = {
+export {
   createContainer,
   listContainers,
   getContainer,

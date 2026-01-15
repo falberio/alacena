@@ -1,7 +1,7 @@
 // src/schemas/reserve.schema.js
 // Validación de datos para el modelo Reserve usando Zod
 
-const { z } = require('zod')
+import { z } from 'zod'
 
 // Enum para estados de reserva (debe coincidir con schema.prisma)
 const ReserveStatusEnum = z.enum(['ACTIVE', 'CONSUMED', 'EXPIRED', 'WASTED'])
@@ -50,7 +50,7 @@ const FilterReserveSchema = z.object({
   offset: z.coerce.number().int().nonnegative().default(0),
 })
 
-module.exports = {
+export {
   CreateReserveSchema,
   UpdateReserveSchema,
   FilterReserveSchema,

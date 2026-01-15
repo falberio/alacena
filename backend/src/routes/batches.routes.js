@@ -1,7 +1,7 @@
 // src/routes/batches.routes.js
 
-const express = require('express')
-const { createBatch, listBatches, getBatch, updateBatch, deleteBatch } = require('../controllers/batch.controller')
+import express from 'express'
+import { createBatch, listBatches, getBatch, updateBatch, deleteBatch } from '../controllers/batch.controller.js'
 
 const router = express.Router()
 
@@ -11,4 +11,4 @@ router.get('/:id', getBatch)
 router.put('/:id', updateBatch)
 router.delete('/:id', deleteBatch)
 
-module.exports = router
+export default router
