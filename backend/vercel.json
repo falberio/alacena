@@ -1,12 +1,15 @@
 {
     "version": 2,
-    "buildCommand": "npm run prisma:generate",
-    "devCommand": "npm run dev",
-    "outputDirectory": ".",
-    "functions": {
-        "src/server.js": {
-            "memory": 512,
-            "maxDuration": 30
+    "builds": [
+        {
+            "src": "api/index.js",
+            "use": "@vercel/node"
         }
-    }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api/index.js"
+        }
+    ]
 }
