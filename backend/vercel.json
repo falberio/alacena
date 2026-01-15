@@ -1,11 +1,13 @@
 {
     "version": 2,
+    "buildCommand": "npm install && prisma generate",
     "builds": [
         {
             "src": "api/index.js",
             "use": "@vercel/node",
             "config": {
-                "includeFiles": "src/**"
+                "includeFiles": ["src/**", "prisma/**"],
+                "excludeFiles": ["node_modules/**"]
             }
         }
     ],
@@ -14,5 +16,8 @@
             "src": "/(.*)",
             "dest": "api/index.js"
         }
-    ]
+    ],
+    "env": {
+        "NODE_ENV": "production"
+    }
 }
