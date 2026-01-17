@@ -131,9 +131,8 @@ export default function ItemsPage() {
                                 placeholder="Nombre *"
                                 value={formData.name || ''}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                className={`w-full border p-2 rounded focus:outline-none focus:ring-2 ${
-                                    errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
-                                }`}
+                                className={`w-full border p-2 rounded focus:outline-none focus:ring-2 ${errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                                    }`}
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                         </div>
