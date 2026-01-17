@@ -4,7 +4,7 @@
 
 | Fecha | Hora | Título | Objetivos | Estado |
 |-------|------|--------|-----------|--------|
-| [2026-01-16](./2026-01-16--deploy-completo.md) | 10:15 | Deploy Completo a Producción | Frontend + Backend en la nube, accesible desde celular | 🔄 En progreso |
+| [2026-01-16](./2026-01-16--deploy-completo.md) | 10:15-17:45 | Deploy Completo a Producción - Fly.io | Frontend + Backend en la nube (Vercel + Fly.io), accesible desde celular | ⏸️ Pausado en: Instalar flyctl |
 
 ---
 
