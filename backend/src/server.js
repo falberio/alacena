@@ -4,4 +4,11 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🧺 Alacena backend corriendo en puerto ${PORT}`);
+}).on('error', (err) => {
+    console.error('❌ Error al iniciar servidor:', err);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection:', reason);
 });
