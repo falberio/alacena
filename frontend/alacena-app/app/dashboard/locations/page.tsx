@@ -37,7 +37,7 @@ export default function LocationsPage() {
     async function fetchLocations() {
         try {
             setLoading(true)
-            const res = await fetch(`${API_URL}/api/locations?limit=100`)
+            const res = await fetch(`${API_URL}/api/locations?limit=50`)
             const data = await res.json()
             setLocations(data.data || [])
         } catch (error) {

@@ -38,9 +38,9 @@ export default function ReservesPage() {
             try {
                 setLoading(true)
                 const [reservesRes, itemsRes, locationsRes] = await Promise.all([
-                    fetch(`${API_URL}/api/reserves?limit=100`),
-                    fetch(`${API_URL}/api/items?limit=100`),
-                    fetch(`${API_URL}/api/locations?limit=100`),
+                    fetch(`${API_URL}/api/reserves?limit=50`),
+                    fetch(`${API_URL}/api/items?limit=50`),
+                    fetch(`${API_URL}/api/locations?limit=50`),
                 ])
 
                 const reservesData = await reservesRes.json()

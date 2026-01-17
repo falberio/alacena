@@ -39,7 +39,7 @@ export default function ItemsPage() {
     async function fetchItems() {
         try {
             setLoading(true)
-            const res = await fetch(`${API_URL}/api/items?limit=100`)
+            const res = await fetch(`${API_URL}/api/items?limit=50&skip=0`)
             const data = await res.json()
             setItems(data.data || [])
         } catch (error) {

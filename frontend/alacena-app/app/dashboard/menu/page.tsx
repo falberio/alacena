@@ -21,6 +21,8 @@ export default function MenuPage() {
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
     const [editingId, setEditingId] = useState<string | null>(null)
+    const [error, setError] = useState<string>('')
+    const [submitLoading, setSubmitLoading] = useState(false)
     const [formData, setFormData] = useState<Partial<MenuItem>>({
         name: '',
         itemId: '',
@@ -34,10 +36,15 @@ export default function MenuPage() {
         const loadData = async () => {
             try {
                 setLoading(true)
+                setError('')
                 const [menuRes, itemsRes] = await Promise.all([
-                    fetch(`${API_URL}/api/menu-items?limit=100`),
-                    fetch(`${API_URL}/api/items?limit=100`),
+                    fetch(`${API_URL}/api/menu-items?limit=50`),
+                    fetch(`${API_URL}/api/items?limit=50`),
                 ])
+
+                if (!menuRes.ok || !itemsRes.ok) {
+                    throw new Error('Error al cargar datos del servidor')
+                }
 
                 const menuData = await menuRes.json()
                 const itemsData = await itemsRes.json()
@@ -46,6 +53,7 @@ export default function MenuPage() {
                 setItems(itemsData.data || [])
             } catch (error) {
                 console.error('Error loading data:', error)
+                setError('No se pudo cargar los datos. Intenta recargar la página.')
             } finally {
                 setLoading(false)
             }
@@ -56,7 +64,16 @@ export default function MenuPage() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+        setError('')
+
+        // Validar campos requeridos
+        if (!formData.name || !formData.itemId) {
+            setError('Nombre e item son requeridos')
+            return
+        }
+
         try {
+            setSubmitLoading(true)
             const url = editingId ? `${API_URL}/api/menu-items/${editingId}` : `${API_URL}/api/menu-items`
             const method = editingId ? 'PUT' : 'POST'
 
@@ -66,10 +83,14 @@ export default function MenuPage() {
                 body: JSON.stringify(formData),
             })
 
-            if (!res.ok) throw new Error('Error al guardar')
+            const responseData = await res.json()
 
-            // Reload
-            const menuRes = await fetch(`${API_URL}/api/menu-items?limit=100`)
+            if (!res.ok) {
+                throw new Error(responseData.error || responseData.message || 'Error al guardar')
+            }
+
+            // Reload with reduced limit
+            const menuRes = await fetch(`${API_URL}/api/menu-items?limit=50`)
             const menuData = await menuRes.json()
             setMenuItems(menuData.data || [])
 
@@ -77,8 +98,11 @@ export default function MenuPage() {
             setShowForm(false)
             setEditingId(null)
         } catch (error) {
+            const errorMsg = error instanceof Error ? error.message : 'Error desconocido'
             console.error('Error:', error)
-            alert('Error al guardar item de menú')
+            setError(`❌ ${errorMsg}`)
+        } finally {
+            setSubmitLoading(false)
         }
     }
 
@@ -86,20 +110,27 @@ export default function MenuPage() {
         setFormData(menuItem)
         setEditingId(menuItem.id)
         setShowForm(true)
+        setError('')
     }
 
     async function handleDelete(id: string) {
         if (confirm('¿Estás seguro?')) {
             try {
+                setSubmitLoading(true)
+                setError('')
                 const res = await fetch(`${API_URL}/api/menu-items/${id}`, { method: 'DELETE' })
-                if (!res.ok) throw new Error('Error al eliminar')
+                const responseData = await res.json()
+                
+                if (!res.ok) throw new Error(responseData.error || 'Error al eliminar')
 
-                const menuRes = await fetch(`${API_URL}/api/menu-items?limit=100`)
+                const menuRes = await fetch(`${API_URL}/api/menu-items?limit=50`)
                 const menuData = await menuRes.json()
                 setMenuItems(menuData.data || [])
             } catch (error) {
-                console.error('Error:', error)
-                alert('Error al eliminar')
+                const errorMsg = error instanceof Error ? error.message : 'Error desconocido'
+                setError(`❌ ${errorMsg}`)
+            } finally {
+                setSubmitLoading(false)
             }
         }
     }
@@ -115,12 +146,19 @@ export default function MenuPage() {
                         setShowForm(!showForm)
                         setEditingId(null)
                         setFormData({ name: '', itemId: '', section: '', isActive: true, notes: '' })
+                        setError('')
                     }}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                 >
                     {showForm ? 'Cancelar' : '+ Nuevo Item de Menú'}
                 </button>
             </div>
+
+            {error && (
+                <div className="bg-red-50 border border-red-200 p-4 rounded text-red-800">
+                    {error}
+                </div>
+            )}
 
             {showForm && (
                 <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg space-y-4">
@@ -130,13 +168,11 @@ export default function MenuPage() {
                             placeholder="Nombre visible en menú *"
                             value={formData.name || ''}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            required
                             className="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <select
                             value={formData.itemId || ''}
                             onChange={(e) => setFormData({ ...formData, itemId: e.target.value })}
-                            required
                             className="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Selecciona el item asociado</option>
@@ -175,12 +211,27 @@ export default function MenuPage() {
                         rows={2}
                     />
 
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
-                    >
-                        {editingId ? 'Actualizar' : 'Crear'} Item de Menú
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            type="submit"
+                            disabled={submitLoading}
+                            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Crear')} Item de Menú
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setShowForm(false)
+                                setEditingId(null)
+                                setFormData({ name: '', itemId: '', section: '', isActive: true, notes: '' })
+                                setError('')
+                            }}
+                            className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
                 </form>
             )}
 
