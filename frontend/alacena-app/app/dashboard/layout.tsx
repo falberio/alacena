@@ -31,46 +31,6 @@ export default function DashboardLayout({
               </li>
               <li>
                 <Link
-                  href="/dashboard/reserves"
-                  className="block px-4 py-2 rounded hover:bg-alacena-700 transition"
-                >
-                  📦 Reservas
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/dashboard/items"
-                  className="block px-4 py-2 rounded hover:bg-alacena-700 transition"
-                >
-                  🥘 Items
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/dashboard/locations"
-                  className="block px-4 py-2 rounded hover:bg-alacena-700 transition"
-                >
-                  📍 Ubicaciones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/dashboard/menu"
-                  className="block px-4 py-2 rounded hover:bg-alacena-700 transition"
-                >
-                  🍽️ Menú
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="pt-4 border-t border-alacena-700">
-            <h3 className="text-xs font-semibold text-alacena-300 uppercase tracking-wider mb-3">
-              Otros
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
                   href="/guest/menu"
                   className="block px-4 py-2 rounded hover:bg-alacena-700 transition"
                 >
