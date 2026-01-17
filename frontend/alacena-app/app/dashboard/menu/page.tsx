@@ -120,7 +120,7 @@ export default function MenuPage() {
                 setError('')
                 const res = await fetch(`${API_URL}/api/menu-items/${id}`, { method: 'DELETE' })
                 const responseData = await res.json()
-                
+
                 if (!res.ok) throw new Error(responseData.error || 'Error al eliminar')
 
                 const menuRes = await fetch(`${API_URL}/api/menu-items?limit=50`)
