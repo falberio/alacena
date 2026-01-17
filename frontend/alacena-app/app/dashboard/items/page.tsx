@@ -111,7 +111,7 @@ export default function ItemsPage() {
                 setGeneralError('')
                 const res = await fetch(`${API_URL}/api/items/${id}`, { method: 'DELETE' })
                 const responseData = await res.json()
-                
+
                 if (!res.ok) throw new Error(responseData.error || 'Error al eliminar')
                 await fetchItems()
             } catch (error) {

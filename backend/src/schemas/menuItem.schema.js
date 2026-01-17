@@ -6,6 +6,7 @@ const CreateMenuItemSchema = z.object({
   name: z.string().min(1).max(200),
   itemId: z.string().uuid(),
   section: z.string().max(100).optional(),
+  isActive: z.boolean().default(true).optional(),
   notes: z.string().max(500).optional(),
 })
 

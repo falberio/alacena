@@ -21,6 +21,8 @@ export default function LocationsPage() {
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
     const [editingId, setEditingId] = useState<string | null>(null)
+    const [generalError, setGeneralError] = useState<string>('')
+    const [submitLoading, setSubmitLoading] = useState(false)
     const [formData, setFormData] = useState<Partial<Location>>({
         name: '',
         kind: 'AREA',
@@ -49,7 +51,10 @@ export default function LocationsPage() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+        setGeneralError('')
+
         try {
+            setSubmitLoading(true)
             const url = editingId ? `${API_URL}/api/locations/${editingId}` : `${API_URL}/api/locations`
             const method = editingId ? 'PUT' : 'POST'
 
@@ -59,15 +64,22 @@ export default function LocationsPage() {
                 body: JSON.stringify(formData),
             })
 
-            if (!res.ok) throw new Error('Error al guardar')
+            const responseData = await res.json()
+
+            if (!res.ok) {
+                throw new Error(responseData.error || responseData.message || 'Error al guardar')
+            }
 
             await fetchLocations()
             setFormData({ name: '', kind: 'AREA', code: '', sortIndex: 0, notes: '' })
             setShowForm(false)
             setEditingId(null)
         } catch (error) {
+            const errorMsg = error instanceof Error ? error.message : 'Error desconocido'
             console.error('Error:', error)
-            alert('Error al guardar ubicación')
+            setGeneralError(`❌ ${errorMsg}`)
+        } finally {
+            setSubmitLoading(false)
         }
     }
 
@@ -80,12 +92,16 @@ export default function LocationsPage() {
     async function handleDelete(id: string) {
         if (confirm('¿Estás seguro?')) {
             try {
+                setGeneralError('')
                 const res = await fetch(`${API_URL}/api/locations/${id}`, { method: 'DELETE' })
-                if (!res.ok) throw new Error('Error al eliminar')
+                const responseData = await res.json()
+                
+                if (!res.ok) throw new Error(responseData.error || 'Error al eliminar')
                 await fetchLocations()
             } catch (error) {
+                const errorMsg = error instanceof Error ? error.message : 'Error desconocido'
                 console.error('Error:', error)
-                alert('Error al eliminar')
+                setGeneralError(`❌ ${errorMsg}`)
             }
         }
     }
@@ -101,12 +117,19 @@ export default function LocationsPage() {
                         setShowForm(!showForm)
                         setEditingId(null)
                         setFormData({ name: '', kind: 'AREA', code: '', sortIndex: 0, notes: '' })
+                        setGeneralError('')
                     }}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                 >
                     {showForm ? 'Cancelar' : '+ Nueva Ubicación'}
                 </button>
             </div>
+
+            {generalError && (
+                <div className="bg-red-50 border border-red-200 p-4 rounded text-red-800">
+                    {generalError}
+                </div>
+            )}
 
             {showForm && (
                 <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg space-y-4">
@@ -155,11 +178,27 @@ export default function LocationsPage() {
                         rows={3}
                     />
 
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
-                    >
-                        {editingId ? 'Actualizar' : 'Crear'} Ubicación
+                    <div className="flex gap-2">
+                        <button
+                            type="submit"
+                            disabled={submitLoading}
+                            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Crear')} Ubicación
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setShowForm(false)
+                                setEditingId(null)
+                                setFormData({ name: '', kind: 'AREA', code: '', sortIndex: 0, notes: '' })
+                                setGeneralError('')
+                            }}
+                            className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
                     </button>
                 </form>
             )}
