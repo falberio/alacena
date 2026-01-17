@@ -83,7 +83,7 @@ export default function ItemsPage() {
         } catch (error) {
             if (error instanceof ZodError) {
                 const fieldErrors: Record<string, string> = {}
-                error.errors.forEach((err) => {
+                error.issues?.forEach((err: any) => {
                     const path = err.path[0] as string
                     fieldErrors[path] = err.message
                 })
