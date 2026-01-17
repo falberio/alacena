@@ -1,6 +1,6 @@
 # fly.toml app configuration
 app = "alacena-backend"
-primary_region = "eze"
+primary_region = "gru"
 
 [build]
   dockerfile = "Dockerfile"
