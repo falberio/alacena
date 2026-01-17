@@ -199,7 +199,6 @@ export default function LocationsPage() {
                             Cancelar
                         </button>
                     </div>
-                    </button>
                 </form>
             )}
 
