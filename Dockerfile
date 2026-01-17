@@ -28,7 +28,7 @@ COPY --from=builder /app/prisma ./prisma
 # Copy application code
 COPY backend/src ./src
 COPY backend/.env.example ./.env.example
-COPY backend/prisma/seed-users.js ./prisma/seed-users.js
+COPY backend/prisma/seed.js ./prisma/seed.js
 
 # Expose port
 EXPOSE 3001
